@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6318754865877869040
+--- !u!1 &3333863902950816384
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5125137643518727005}
-  - component: {fileID: 601461689637979810}
-  - component: {fileID: 5825043583609160548}
-  - component: {fileID: 3729658660867157982}
+  - component: {fileID: 4356319621008520847}
+  - component: {fileID: 6814675739456881490}
+  - component: {fileID: 3399800313521765819}
+  - component: {fileID: 1668823689231464393}
   m_Layer: 0
-  m_Name: DamageZone
+  m_Name: SuperHealthCollectible
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5125137643518727005
+--- !u!4 &4356319621008520847
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6318754865877869040}
+  m_GameObject: {fileID: 3333863902950816384}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.38, y: -1.23, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.6, y: -1.42, z: 0}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &601461689637979810
+--- !u!212 &6814675739456881490
 SpriteRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6318754865877869040}
+  m_GameObject: {fileID: 3333863902950816384}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -83,23 +83,23 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 3325234d9883550489ddb29f3e66f9c1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 11c777a08257e944e98899b0c6011308, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 2
-  m_Size: {x: 2.12, y: 2.12}
+  m_DrawMode: 0
+  m_Size: {x: 4, y: 4}
   m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 1
+  m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!61 &5825043583609160548
+--- !u!61 &3399800313521765819
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6318754865877869040}
+  m_GameObject: {fileID: 3333863902950816384}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -127,27 +127,28 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.011982381, y: -0.0119822025}
+  m_Offset: {x: -0.08139801, y: -0.1775949}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 5.12}
-    newSize: {x: 2.12, y: 2.12}
+    oldSize: {x: 4, y: 4}
+    newSize: {x: 4, y: 4}
     adaptiveTilingThreshold: 0.5
-    drawMode: 2
-    adaptiveTiling: 1
-  m_AutoTiling: 1
-  m_Size: {x: 2.1723547, y: 2.1244264}
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3.837204, y: 3.6448102}
   m_EdgeRadius: 0
---- !u!114 &3729658660867157982
+--- !u!114 &1668823689231464393
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6318754865877869040}
+  m_GameObject: {fileID: 3333863902950816384}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b29dafda7e00d574896eea08bcc29156, type: 3}
+  m_Script: {fileID: 11500000, guid: 31fab6b5205f0e3458e3fbd0dde52735, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DamageZone
+  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
+  healthAmount: 2
