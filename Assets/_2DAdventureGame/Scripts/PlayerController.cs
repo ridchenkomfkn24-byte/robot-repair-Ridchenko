@@ -3,49 +3,55 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    // Поле для зчитування вводу з клавіатури/джойстика (Input System)
     public InputAction MoveAction;
 
-    // Посилання на компонент Rigidbody 2D персонажа
-    Rigidbody2D rigidbody2d;
-
-    // Змінна для збереження напрямку руху
-    Vector2 move;
-
-    // --- Юніт 3: Швидкість та Здоров'я ---
     public float speed = 3.0f;
     public int maxHealth = 5;
-
-    // Властивість лише для читання, щоб інші скрипти бачили поточне здоров'я, але не змінювали його напряму
-    public int health { get { return currentHealth; } }
-    int currentHealth;
-
-    // Поля для механіки невразливості після отримання шкоди
     public float timeInvincible = 2.0f;
+    public GameObject projectilePrefab;
+
+    public int health { get { return currentHealth; } }
+
+    Rigidbody2D rigidbody2d;
+    Animator animator;
+
+    Vector2 move;
+    Vector2 moveDirection = new Vector2(1, 0);
+    int currentHealth;
     bool isInvincible;
     float damageCooldown;
 
+    // Таймер затримки між пострілами
+    public float timeBetweenShots = 0.5f;
+    float shotTimer;
+
     void Start()
     {
-        // Активуємо дію вводу
         MoveAction.Enable();
 
-        // Отримуємо компонент Rigidbody 2D, який прикріплений до цього ж об'єкта
         rigidbody2d = GetComponent<Rigidbody2D>();
-
-        // Встановлюємо максимальне здоров'я на старті гри
+        animator = GetComponent<Animator>();
         currentHealth = maxHealth;
     }
 
     void Update()
     {
-        // Зчитування вводу від гравця
         move = MoveAction.ReadValue<Vector2>();
 
-        // Закоментовано, щоб консоль не переповнювалася координатами
-        // Debug.Log(move);
+        if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
+        {
+            moveDirection.Set(move.x, move.y);
+            moveDirection.Normalize();
+        }
 
-        // Таймер відліку невразливості
+        if (animator != null)
+        {
+            animator.SetFloat("Look X", moveDirection.x);
+            animator.SetFloat("Look Y", moveDirection.y);
+            animator.SetFloat("Speed", move.magnitude);
+        }
+
+        // Таймер невразливості
         if (isInvincible)
         {
             damageCooldown -= Time.deltaTime;
@@ -54,33 +60,60 @@ public class PlayerController : MonoBehaviour
                 isInvincible = false;
             }
         }
+
+        // Оновлення затримки пострілу
+        if (shotTimer > 0)
+        {
+            shotTimer -= Time.deltaTime;
+        }
+
+        // Постріл на клавішу C через New Input System (клавіатура)
+        if (Keyboard.current != null && Keyboard.current.cKey.wasPressedThisFrame && shotTimer <= 0)
+        {
+            Launch();
+            shotTimer = timeBetweenShots; // Запуск перезарядки
+        }
     }
 
     void FixedUpdate()
     {
-        // Переміщення об'єкта з використанням публічної змінної speed
         Vector2 position = (Vector2)rigidbody2d.position + move * speed * Time.deltaTime;
         rigidbody2d.MovePosition(position);
     }
 
-    // Зміна здоров'я (лікування якщо amount > 0, шкода якщо amount < 0)
     public void ChangeHealth(int amount)
     {
-        // Якщо отримуємо шкоду — перевіряємо невразливість
         if (amount < 0)
         {
             if (isInvincible)
             {
-                return; // Гравець невразливий, шкода не завдається
+                return;
             }
             isInvincible = true;
             damageCooldown = timeInvincible;
+            if (animator != null)
+            {
+                animator.SetTrigger("Hit");
+            }
         }
 
-        // Обмежуємо здоров'я в діапазоні від 0 до maxHealth
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
-
-        // Вивід стану здоров'я в консоль (наприклад: 4/5)
         Debug.Log(currentHealth + "/" + maxHealth);
+    }
+
+    void Launch()
+    {
+        GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
+        Projectile projectile = projectileObject.GetComponent<Projectile>();
+
+        if (projectile != null)
+        {
+            projectile.Launch(moveDirection, 300);
+        }
+
+        if (animator != null)
+        {
+            animator.SetTrigger("Launch");
+        }
     }
 }
