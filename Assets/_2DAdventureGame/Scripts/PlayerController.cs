@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public InputAction MoveAction;
+    public InputAction LaunchAction;
 
     public float speed = 3.0f;
     public int maxHealth = 5;
@@ -21,13 +22,14 @@ public class PlayerController : MonoBehaviour
     bool isInvincible;
     float damageCooldown;
 
-    // Таймер затримки між пострілами
+    // Таймер затримки між пострілами (ДЗ)
     public float timeBetweenShots = 0.5f;
     float shotTimer;
 
     void Start()
     {
         MoveAction.Enable();
+        LaunchAction.Enable();
 
         rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -67,8 +69,8 @@ public class PlayerController : MonoBehaviour
             shotTimer -= Time.deltaTime;
         }
 
-        // Постріл на клавішу C через New Input System (клавіатура)
-        if (Keyboard.current != null && Keyboard.current.cKey.wasPressedThisFrame && shotTimer <= 0)
+        // Постріл на клавішу C
+        if (LaunchAction.WasPressedThisFrame() && shotTimer <= 0)
         {
             Launch();
             shotTimer = timeBetweenShots; // Запуск перезарядки

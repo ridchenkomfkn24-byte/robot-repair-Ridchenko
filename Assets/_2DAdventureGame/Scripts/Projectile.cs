@@ -7,34 +7,45 @@ public class Projectile : MonoBehaviour
     void Awake()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
+        Debug.Log("Снаряд створено в пам'яті!");
     }
 
     void Update()
     {
-        // Прибирання снаряда, якщо він вилетів за межі межі карти
+        // Тимчасово вимкнено видалення за відстанню
+        /*
         if (transform.position.magnitude > 100.0f)
         {
             Destroy(gameObject);
         }
+        */
     }
 
     public void Launch(Vector2 direction, float force)
     {
         rigidbody2d.AddForce(direction * force);
+        Debug.Log("Снаряд запущено з силою: " + force);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Снаряд пролетів крізь тригер: " + other.gameObject.name);
+
         EnemyController enemy = other.GetComponent<EnemyController>();
         if (enemy != null)
         {
             enemy.Fix();
         }
-        Destroy(gameObject);
+
+        // Тимчасово вимкнено знищення при влучанні
+        // Destroy(gameObject);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(gameObject);
+        Debug.Log("Снаряд зіткнувся з колайдером: " + collision.gameObject.name);
+
+        // Тимчасово вимкнено знищення при зіткненні
+        // Destroy(gameObject);
     }
 }
