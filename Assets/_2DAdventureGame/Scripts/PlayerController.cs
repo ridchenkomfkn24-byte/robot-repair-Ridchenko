@@ -22,10 +22,6 @@ public class PlayerController : MonoBehaviour
     bool isInvincible;
     float damageCooldown;
 
-    // Таймер затримки між пострілами (ДЗ)
-    public float timeBetweenShots = 0.5f;
-    float shotTimer;
-
     void Start()
     {
         MoveAction.Enable();
@@ -53,7 +49,6 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("Speed", move.magnitude);
         }
 
-        // Таймер невразливості
         if (isInvincible)
         {
             damageCooldown -= Time.deltaTime;
@@ -63,17 +58,9 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // Оновлення затримки пострілу
-        if (shotTimer > 0)
-        {
-            shotTimer -= Time.deltaTime;
-        }
-
-        // Постріл на клавішу C
-        if (LaunchAction.WasPressedThisFrame() && shotTimer <= 0)
+        if (LaunchAction.WasPressedThisFrame())
         {
             Launch();
-            shotTimer = timeBetweenShots; // Запуск перезарядки
         }
     }
 
@@ -100,7 +87,6 @@ public class PlayerController : MonoBehaviour
         }
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
-        Debug.Log(currentHealth + "/" + maxHealth);
     }
 
     void Launch()
