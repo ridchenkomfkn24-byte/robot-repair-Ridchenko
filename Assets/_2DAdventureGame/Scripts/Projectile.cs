@@ -160,7 +160,7 @@ public class Projectile : MonoBehaviour
             Debug.LogError("❌ [PROJECTILE] Сила запуску менша або дорівнює 0!", this);
         }
 
-        Debug.Log("⚙️ [PROJECTILE] Швидкість ДО AddForce: " + rigidbody2d.velocity, this);
+        Debug.Log("⚙️ [PROJECTILE] Швидкість ДО AddForce: " + rigidbody2d.linearVelocity, this);
 
         rigidbody2d.AddForce(direction * force);
 
@@ -191,9 +191,9 @@ public class Projectile : MonoBehaviour
         Debug.Log("🔎 [PROJECTILE] Перевірка після фізичного оновлення:", this);
 
         Debug.Log("📍 Позиція: " + transform.position, this);
-        Debug.Log("🏃 Швидкість: " + rigidbody2d.velocity, this);
+        Debug.Log("🏃 Швидкість: " + rigidbody2d.linearVelocity, this);
 
-        if (rigidbody2d.velocity.sqrMagnitude < 0.0001f)
+        if (rigidbody2d.linearVelocity.sqrMagnitude < 0.0001f)
         {
             Debug.LogWarning(
                 "⚠️ [PROJECTILE] Швидкість майже нульова! Перевірте Rigidbody2D, Constraints, силу та зіткнення.",
