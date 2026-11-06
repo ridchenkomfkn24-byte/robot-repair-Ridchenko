@@ -13,6 +13,10 @@ public class EnemyController : MonoBehaviour
     float timer;
     int direction = 1;
     bool broken = true;
+    public bool isBroken
+    {
+        get { return broken; }
+    }
 
     void Start()
     {

@@ -270,9 +270,18 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
     m_Priority: 0
+  TalkAction:
+    m_Name: Talk
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 017590e4-4fe5-4f50-b7b0-fdea1bec31ad
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+    m_Priority: 0
   speed: 3
   maxHealth: 5
   timeInvincible: 2
   projectilePrefab: {fileID: 4559297827235849872, guid: 1fb53c08ba3f70e489499a6128da5e3f,
     type: 3}
-  timeBetweenShots: 0.5

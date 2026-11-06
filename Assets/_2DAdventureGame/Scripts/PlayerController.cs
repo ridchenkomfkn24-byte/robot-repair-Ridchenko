@@ -5,30 +5,39 @@ public class PlayerController : MonoBehaviour
 {
     public InputAction MoveAction;
     public InputAction LaunchAction;
+    public InputAction TalkAction;
 
     public float speed = 3.0f;
     public int maxHealth = 5;
     public float timeInvincible = 2.0f;
     public GameObject projectilePrefab;
 
-    public int health { get { return currentHealth; } }
+    public int health
+    {
+        get { return currentHealth; }
+    }
 
-    Rigidbody2D rigidbody2d;
-    Animator animator;
+    private Rigidbody2D rigidbody2d;
+    private Animator animator;
 
-    Vector2 move;
-    Vector2 moveDirection = new Vector2(1, 0);
-    int currentHealth;
-    bool isInvincible;
-    float damageCooldown;
+    private Vector2 move;
+    private Vector2 moveDirection = Vector2.right;
+
+    private int currentHealth;
+    private bool isInvincible;
+    private float damageCooldown;
+
+    private NonPlayerCharacter lastNonPlayerCharacter;
 
     void Start()
     {
         MoveAction.Enable();
         LaunchAction.Enable();
+        TalkAction.Enable();
 
         rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
         currentHealth = maxHealth;
     }
 
@@ -36,10 +45,10 @@ public class PlayerController : MonoBehaviour
     {
         move = MoveAction.ReadValue<Vector2>();
 
-        if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
+        if (!Mathf.Approximately(move.x, 0.0f)
+            || !Mathf.Approximately(move.y, 0.0f))
         {
-            moveDirection.Set(move.x, move.y);
-            moveDirection.Normalize();
+            moveDirection = move.normalized;
         }
 
         if (animator != null)
@@ -52,7 +61,8 @@ public class PlayerController : MonoBehaviour
         if (isInvincible)
         {
             damageCooldown -= Time.deltaTime;
-            if (damageCooldown < 0)
+
+            if (damageCooldown <= 0)
             {
                 isInvincible = false;
             }
@@ -62,12 +72,57 @@ public class PlayerController : MonoBehaviour
         {
             Launch();
         }
+
+        CheckForNPC();
     }
 
     void FixedUpdate()
     {
-        Vector2 position = (Vector2)rigidbody2d.position + move * speed * Time.deltaTime;
+        Vector2 position = rigidbody2d.position
+            + move * speed * Time.fixedDeltaTime;
+
         rigidbody2d.MovePosition(position);
+    }
+
+    void CheckForNPC()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(
+            rigidbody2d.position + Vector2.up * 0.2f,
+            moveDirection,
+            1.5f,
+            LayerMask.GetMask("NPC")
+        );
+
+        NonPlayerCharacter npc = null;
+
+        if (hit.collider != null)
+        {
+            npc = hit.collider.GetComponent<NonPlayerCharacter>();
+        }
+
+        // Ховаємо підказку, якщо відвернулися або дивимося на іншого NPC.
+        if (lastNonPlayerCharacter != npc)
+        {
+            if (lastNonPlayerCharacter != null)
+            {
+                lastNonPlayerCharacter.ShowBubble(false);
+            }
+
+            lastNonPlayerCharacter = npc;
+        }
+
+        if (npc == null)
+        {
+            return;
+        }
+
+        npc.ShowBubble(true);
+
+        if (TalkAction.WasPressedThisFrame()
+            && UIHandler.instance != null)
+        {
+            UIHandler.instance.DisplayDialogue(npc.dialogueText);
+        }
     }
 
     public void ChangeHealth(int amount)
@@ -78,21 +133,45 @@ public class PlayerController : MonoBehaviour
             {
                 return;
             }
+
             isInvincible = true;
             damageCooldown = timeInvincible;
+
             if (animator != null)
             {
                 animator.SetTrigger("Hit");
             }
         }
 
-        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        currentHealth = Mathf.Clamp(
+            currentHealth + amount,
+            0,
+            maxHealth
+        );
+
+        if (UIHandler.instance != null)
+        {
+            UIHandler.instance.SetHealthValue(
+                currentHealth / (float)maxHealth
+            );
+        }
     }
 
     void Launch()
     {
-        GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
-        Projectile projectile = projectileObject.GetComponent<Projectile>();
+        if (projectilePrefab == null)
+        {
+            return;
+        }
+
+        GameObject projectileObject = Instantiate(
+            projectilePrefab,
+            rigidbody2d.position + Vector2.up * 0.5f,
+            Quaternion.identity
+        );
+
+        Projectile projectile =
+            projectileObject.GetComponent<Projectile>();
 
         if (projectile != null)
         {
@@ -102,6 +181,18 @@ public class PlayerController : MonoBehaviour
         if (animator != null)
         {
             animator.SetTrigger("Launch");
+        }
+    }
+
+    void OnDisable()
+    {
+        MoveAction.Disable();
+        LaunchAction.Disable();
+        TalkAction.Disable();
+
+        if (lastNonPlayerCharacter != null)
+        {
+            lastNonPlayerCharacter.ShowBubble(false);
         }
     }
 }
