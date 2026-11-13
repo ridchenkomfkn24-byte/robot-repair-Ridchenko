@@ -6,10 +6,12 @@ public class EnemyController : MonoBehaviour
     public float speed = 1.0f;
     public bool vertical;
     public float changeTime = 3.0f;
+    public AudioClip fixSound;
 
     // Внутрішні компоненти та змінні
     Rigidbody2D rigidbody2d;
     Animator animator;
+    AudioSource audioSource;
     float timer;
     int direction = 1;
     bool broken = true;
@@ -22,6 +24,7 @@ public class EnemyController : MonoBehaviour
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         timer = changeTime;
     }
 
@@ -84,6 +87,10 @@ public class EnemyController : MonoBehaviour
     {
         if (!broken) return;
         broken = false;
+        if (audioSource != null && fixSound != null)
+        {
+            audioSource.PlayOneShot(fixSound);
+        }
         rigidbody2d.simulated = false; // Вимикаємо фізику та тригери
         if (animator != null)
         {

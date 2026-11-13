@@ -1,0 +1,12 @@
+.restart-hint {
+    position: absolute;
+    bottom: 4%;
+    left: 8%;
+    right: 8%;
+    padding: 12px;
+    font-size: 30px;
+    -unity-text-align: middle-center;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.75);
+    white-space: normal;
+}

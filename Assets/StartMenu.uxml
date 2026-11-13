@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:Style src="StartMenu.uss" />
+    <ui:VisualElement name="StartMenu" class="menu">
+        <ui:VisualElement class="tree tree-left" picking-mode="Ignore" />
+        <ui:VisualElement class="tree tree-right" picking-mode="Ignore" />
+        <ui:VisualElement class="menu-panel">
+            <ui:VisualElement class="content">
+                <ui:VisualElement class="portrait" picking-mode="Ignore" />
+                <ui:VisualElement class="copy">
+                    <ui:Label text="2D ПРИГОДА" class="eyebrow" />
+                    <ui:Label text="ROBOT REPAIR" class="title" />
+                    <ui:Label text="Ducko" class="subtitle" />
+                    <ui:Label text="Полагодь усіх трьох роботів у саду." class="goal" />
+                    <ui:Label text="Зелені плити відкривають двері між озерцями на 4 секунди. Наступи на плиту й встигни пройти!" class="hint" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="controls">
+                <ui:Label text="WASD — рух" class="control" />
+                <ui:Label text="C — постріл" class="control" />
+                <ui:Label text="X — розмова" class="control" />
+            </ui:VisualElement>
+            <ui:VisualElement class="actions">
+                <ui:Button name="PlayButton" text="ГРАТИ" class="play-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

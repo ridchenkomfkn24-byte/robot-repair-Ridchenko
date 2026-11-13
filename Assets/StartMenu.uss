@@ -1,0 +1,75 @@
+.menu {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(22, 57, 64);
+    color: rgb(25, 55, 62);
+}
+
+.tree {
+    position: absolute;
+    width: 24%;
+    height: 72%;
+    bottom: 3%;
+    opacity: 0.65;
+    background-image: url("project://database/Assets/_2DAdventureGame/Art/Ducko/Environmnent/Decoration_7.png");
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.tree-left { left: 1%; }
+.tree-right { right: 1%; }
+
+.menu-panel {
+    width: 78%;
+    max-width: 1400px;
+    padding: 65px;
+    background-image: url("project://database/Assets/_2DAdventureGame/Art/Ducko/UI/UIDialogueBox.png");
+    -unity-slice-left: 32;
+    -unity-slice-right: 32;
+    -unity-slice-top: 32;
+    -unity-slice-bottom: 32;
+}
+
+.content { flex-direction: row; align-items: center; }
+
+.portrait {
+    width: 28%;
+    height: 390px;
+    margin-right: 42px;
+    background-image: url("project://database/Assets/_2DAdventureGame/Art/Ducko/UI/CharacterPortrait.png");
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.copy { flex-grow: 1; flex-shrink: 1; }
+.eyebrow { font-size: 24px; color: rgb(143, 51, 86); -unity-font-style: bold; }
+.title { font-size: 68px; -unity-font-style: bold; white-space: normal; margin-top: 6px; }
+.subtitle { font-size: 32px; color: rgb(143, 51, 86); margin-bottom: 24px; }
+.goal { font-size: 30px; white-space: normal; margin-bottom: 20px; }
+.hint { font-size: 25px; white-space: normal; color: rgb(53, 80, 86); }
+
+.controls {
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 32px;
+    padding-top: 22px;
+    border-top-width: 2px;
+    border-top-color: rgb(163, 210, 211);
+}
+
+.control { font-size: 25px; margin-left: 16px; margin-right: 16px; }
+.actions { align-items: center; margin-top: 24px; }
+
+.play-button {
+    width: 340px;
+    min-height: 78px;
+    font-size: 34px;
+    -unity-font-style: bold;
+    color: rgb(49, 24, 39);
+    background-color: rgb(240, 125, 171);
+    border-width: 4px;
+    border-color: rgb(218, 172, 61);
+    border-radius: 16px;
+}
+
+.play-button:hover, .play-button:focus { background-color: rgb(255, 161, 194); }
+.play-button:active { background-color: rgb(218, 100, 149); }

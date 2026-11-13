@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
         if (player.health <= 0)
         {
             gameOver = true;
+            StopPlayer();
             uiHandler.DisplayLoseScreen();
             Invoke(nameof(ReloadScene), restartDelay);
             return;
@@ -35,9 +36,18 @@ public class GameManager : MonoBehaviour
         if (AllEnemiesFixed())
         {
             gameOver = true;
+            StopPlayer();
             uiHandler.DisplayWinScreen();
             Invoke(nameof(ReloadScene), restartDelay);
         }
+    }
+
+    void StopPlayer()
+    {
+        player.enabled = false;
+        player.GetComponent<Rigidbody2D>().simulated = false;
+        Animator animator = player.GetComponent<Animator>();
+        if (animator != null) animator.SetFloat("Speed", 0);
     }
 
     bool AllEnemiesFixed()

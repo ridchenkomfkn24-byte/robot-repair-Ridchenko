@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     public int maxHealth = 5;
     public float timeInvincible = 2.0f;
     public GameObject projectilePrefab;
+    public AudioClip hitSound;
+    public AudioClip healSound;
+    public AudioClip launchSound;
 
     public int health
     {
@@ -19,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rigidbody2d;
     private Animator animator;
+    private AudioSource audioSource;
 
     private Vector2 move;
     private Vector2 moveDirection = Vector2.right;
@@ -37,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
         rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         currentHealth = maxHealth;
     }
@@ -127,6 +132,11 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeHealth(int amount)
     {
+        if (Mathf.Clamp(currentHealth + amount, 0, maxHealth) == currentHealth)
+        {
+            return;
+        }
+
         if (amount < 0)
         {
             if (isInvincible)
@@ -148,6 +158,7 @@ public class PlayerController : MonoBehaviour
             0,
             maxHealth
         );
+        PlaySound(amount < 0 ? hitSound : healSound);
 
         if (UIHandler.instance != null)
         {
@@ -176,11 +187,20 @@ public class PlayerController : MonoBehaviour
         if (projectile != null)
         {
             projectile.Launch(moveDirection, 300);
+            PlaySound(launchSound);
         }
 
         if (animator != null)
         {
             animator.SetTrigger("Launch");
+        }
+    }
+
+    void PlaySound(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
         }
     }
 
