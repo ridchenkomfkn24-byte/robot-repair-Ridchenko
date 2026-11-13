@@ -71,6 +71,7 @@ public class EnemyController : MonoBehaviour
     // Нанесення шкоди при дотику
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (!broken) return;
         PlayerController player = other.gameObject.GetComponent<PlayerController>();
         if (player != null)
         {
@@ -81,6 +82,7 @@ public class EnemyController : MonoBehaviour
     // Метод ремонту ворога
     public void Fix()
     {
+        if (!broken) return;
         broken = false;
         rigidbody2d.simulated = false; // Вимикаємо фізику та тригери
         if (animator != null)
